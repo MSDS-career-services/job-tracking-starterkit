@@ -1,0 +1,26 @@
+name: Test job-tracking
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.8]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up python 3
+      uses: actions/setup-python@v2
+    - name: Install libs
+      run: |
+        pip install pytest
+        pip install pandas
+
+    - name: Test with pytest
+      run: |
+        pytest test_jobs.py
